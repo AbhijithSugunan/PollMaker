@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PollMakerAPI.Infrastructure.Models;
@@ -21,7 +22,7 @@ namespace PollMakerAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("{getUser}")]
+        [HttpGet("getUser")]
         public IActionResult GetUser(string email)
         {
             try
@@ -52,7 +53,7 @@ namespace PollMakerAPI.Controllers
                 }
                 return StatusCode(StatusCodes.Status409Conflict);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -78,14 +79,15 @@ namespace PollMakerAPI.Controllers
             }
         }
 
-        public async Task<IActionResult> RemoveDeleteUser(User userToRemove)
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> RemoveDeleteUser(string email)
         {
             try
             {
-                var user = _userService.GetUser(userToRemove.Email);
+                var user = _userService.GetUser(email);
                 if (user != null)
                 {
-                    await _userService.RemoveUserAsync(userToRemove);
+                    await _userService.RemoveUserAsync(email);
                     return Ok();
                 }
                 return NotFound("Invalid user!!");

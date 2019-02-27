@@ -12,7 +12,7 @@ namespace PollMakerAPI.Infrastructure.Services.Interfaces
 
         User GetUser(string email);
 
-        Task RemoveUserAsync(User userToRemove);
+        Task RemoveUserAsync(string email);
 
         Task UpdatePassword(User user, string oldPassword, string newPassword);
 

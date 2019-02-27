@@ -3,10 +3,6 @@ using MongoDB.Driver;
 using PollMakerAPI.Infrastructure.Configurations;
 using PollMakerAPI.Infrastructure.Models;
 using PollMakerAPI.Infrastructure.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PollMakerAPI.Infrastructure.Repositories
 {
@@ -18,8 +14,11 @@ namespace PollMakerAPI.Infrastructure.Repositories
         {
             var client = new MongoClient(options.Value.ConnectionString);
             _db = client.GetDatabase(options.Value.Database);
+            
         }
 
         public IMongoCollection<User> Users => _db.GetCollection<User>("Users");
+        public IMongoCollection<Poll> Polls => _db.GetCollection<Poll>("Polls");
+        public IMongoCollection<PollContent> PollContents => _db.GetCollection<PollContent>("PollContents");
     }
 }

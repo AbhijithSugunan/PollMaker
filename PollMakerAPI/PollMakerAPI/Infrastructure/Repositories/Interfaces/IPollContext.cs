@@ -10,5 +10,9 @@ namespace PollMakerAPI.Infrastructure.Repositories.Interfaces
     public interface IPollContext
     {
         IMongoCollection<User> Users { get; }
+
+        IMongoCollection<Poll> Polls { get; }
+
+        IMongoCollection<PollContent> PollContents { get; }
     }
 }

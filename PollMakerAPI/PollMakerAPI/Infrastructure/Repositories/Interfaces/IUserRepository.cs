@@ -14,6 +14,6 @@ namespace PollMakerAPI.Infrastructure.Repositories.Interfaces
 
         Task<bool> UpdateUserAsync(User userToUpdate);
 
-        Task<bool> RemoveUserAsync(User userToRemove);
+        Task<bool> RemoveUserAsync(string email);
     }
 }

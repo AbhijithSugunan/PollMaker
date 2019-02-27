@@ -22,6 +22,7 @@ namespace PollMakerAPI.Infrastructure.Services
             try
             {
                 // Need to Implement validation logic
+                userToCreate.UserId = Guid.NewGuid();
                 await _userRepository.CreateAsync(userToCreate);
             }
             catch (Exception)
@@ -43,11 +44,11 @@ namespace PollMakerAPI.Infrastructure.Services
             }
         }
 
-        public async Task RemoveUserAsync(User userToRemove)
+        public async Task RemoveUserAsync(string email)
         {
             try
             {
-                await _userRepository.RemoveUserAsync(userToRemove);
+                await _userRepository.RemoveUserAsync(email);
             }
             catch (Exception)
             {
@@ -74,5 +75,7 @@ namespace PollMakerAPI.Infrastructure.Services
                 throw;
             }
         }
+
+        
     }
 }

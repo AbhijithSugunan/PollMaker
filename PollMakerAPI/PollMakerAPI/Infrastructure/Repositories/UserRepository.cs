@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using PollMakerAPI.Infrastructure.Models;
 using PollMakerAPI.Infrastructure.Repositories.Interfaces;
 using System;
@@ -23,7 +24,7 @@ namespace PollMakerAPI.Infrastructure.Repositories
             {
                 await _context.Users.InsertOneAsync(userToCreate);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw;
             }
@@ -43,11 +44,11 @@ namespace PollMakerAPI.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> RemoveUserAsync(User userToRemove)
+        public async Task<bool> RemoveUserAsync(string email)
         {
             try
             {
-                var filter = Builders<User>.Filter.Eq(x => x.Email, userToRemove.Email);
+                var filter = Builders<User>.Filter.Eq(x => x.Email, email);
                 var deleteResult = await _context.Users.DeleteOneAsync(filter);
                 return (deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0);
             }

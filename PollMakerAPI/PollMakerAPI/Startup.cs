@@ -11,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PollMakerAPI.Infrastructure.Configurations;
+using PollMakerAPI.Infrastructure.Repositories;
+using PollMakerAPI.Infrastructure.Repositories.Interfaces;
+using PollMakerAPI.Infrastructure.Services;
+using PollMakerAPI.Infrastructure.Services.Interfaces;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace PollMakerAPI
 {
@@ -27,6 +32,13 @@ namespace PollMakerAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new Info() { Title = "PollMakerAPI", Version = "v1" });
+            });
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IPollContext, PollContext>();
             services.Configure<MongoConfiguration>( option => {
                 option.ConnectionString = Configuration.GetSection("mongoDb:ConnectionString").Value;
                 option.Database = Configuration.GetSection("mongoDb:Database").Value;
@@ -39,6 +51,7 @@ namespace PollMakerAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
             else
             {
@@ -48,6 +61,12 @@ namespace PollMakerAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(x => 
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "PollMakerAPI");
+                x.RoutePrefix = string.Empty;
+            });
         }
     }
 }
