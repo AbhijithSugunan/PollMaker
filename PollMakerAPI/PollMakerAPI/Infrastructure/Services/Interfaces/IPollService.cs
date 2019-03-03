@@ -9,5 +9,7 @@ namespace PollMakerAPI.Infrastructure.Services.Interfaces
     public interface IPollService
     {
         Task CreateNewPoll(PollCreationRequest request);
+
+        Task CastPoll(Guid userId, Guid pollId, int optionId);
     }
 }

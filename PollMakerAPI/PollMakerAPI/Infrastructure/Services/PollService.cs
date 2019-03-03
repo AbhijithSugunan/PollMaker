@@ -19,7 +19,7 @@ namespace PollMakerAPI.Infrastructure.Services
         {
             _pollRepository = pollRepo;
         }
-
+        
         public async Task CreateNewPoll(PollCreationRequest request)
         {
             try
@@ -52,6 +52,11 @@ namespace PollMakerAPI.Infrastructure.Services
             {
                 throw;
             }
+        }
+
+        public Task CastPoll(Guid userId, Guid pollId, int optionId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

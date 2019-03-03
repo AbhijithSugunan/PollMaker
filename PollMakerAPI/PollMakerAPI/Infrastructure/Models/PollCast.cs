@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PollMakerAPI.Infrastructure.Models
 {
-    public class PollResult
+    public class PollCast
     {
         #region Properties
 
